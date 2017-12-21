@@ -11,6 +11,9 @@ router.register(r'rewards', views.RewardViewSet)
 router.register(r'redeemedrewards', views.RedeemedRewardViewSet)
 router.register(r'completedtasks', views.CompletedTaskViewSet)
 
+
+
 urlpatterns = [
     url(r'', include(router.urls)),
+
 ]

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django.urls import reverse
 
 
 class Player(models.Model):
@@ -12,6 +13,9 @@ class Player(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('player-detail', kwargs={'pk': self.pk})
 
 
 class Task(models.Model):
@@ -39,6 +43,9 @@ class RedeemedReward(models.Model):
     player = models.ForeignKey('Player', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.reward.__str__()
+
     def points_cost(self):
         return self.reward.cost
 
@@ -59,6 +66,9 @@ class CompletedTask(models.Model):
     task = models.ForeignKey('Task', on_delete=models.CASCADE)
     player = models.ForeignKey('Player', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.task.__str__()
 
     def points_earned(self):
         return self.task.points

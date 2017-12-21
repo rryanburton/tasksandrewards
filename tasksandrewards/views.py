@@ -1,5 +1,7 @@
 from rest_framework import viewsets
 from django.contrib.auth.models import User, Group
+from django.views.generic import DetailView, ListView
+
 from tasksandrewards.serializers import (
         UserSerializer,
         GroupSerializer,
@@ -10,6 +12,9 @@ from tasksandrewards.serializers import (
         CompletedTaskSerializer
     )
 from tasksandrewards.models import Player, Task, Reward, RedeemedReward, CompletedTask
+
+
+# #######  API Views  #######################################
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -46,3 +51,32 @@ class CompletedTaskViewSet(viewsets.ModelViewSet):
     queryset = CompletedTask.objects.all()
     serializer_class = CompletedTaskSerializer
 
+
+# #######  APP Views  #######################################
+
+class PlayerListView(ListView):
+    model = Player
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # context['now'] = timezone.now()
+        return context
+
+
+class PlayerDetailView(DetailView):
+    model = Player
+
+    tasks = Task.objects.all()
+    rewards = Reward.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tasks'] = self.tasks
+        context['rewards'] = self.rewards
+
+        # context['now'] = timezone.now()
+        return context
+
+# @register.filter(name='subtract')
+# def subtract(value, arg):
+#     return value - arg

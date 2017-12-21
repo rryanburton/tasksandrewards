@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load tasksandrewards_extras %}
+{% block title %}Home{% endblock title %}
+{% block nav-style %}mkt-nav{% endblock nav-style %}
+
+{% block content %}
+
+    <h1><span class="badge badge-secondary">{{ player.name }}</span> <span
+            class="badge badge-info">Score: {{ player.score }}</span></h1>
+
+        <h4>Tasks Available</h4>
+        <table class="table">
+            <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td>{{ task.name }}</td>
+                    <td><span class="badge badge-pill badge-primary">EARN: {{ task.points }} POINTS</span></td>
+                    <td>{{ task.task }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+    <h4>Rewards Available</h4>
+    <table class="table">
+        <tbody>
+        {% for reward in rewards %}
+            <tr>
+                {% if reward.cost > player.score %}
+                    <td style="text-decoration: line-through;">
+
+                            {{ reward.name }}
+                    </td>
+                {% else %}
+                    <td>{{ reward.name }}</td>
+
+                {% endif %}
+                <td>
+                    {% if reward.cost > player.score %}
+{#                        NOT ENOUGH POINTS#}
+                        <span class="badge badge-pill badge-danger">YOU NEED {{ reward.cost|subtract:player.score }} MORE  POINTS</span>
+                    {% else %}
+                        <span class="badge badge-pill badge-warning">COST: {{ reward.cost }} POINTS</span>
+                    {% endif %}
+                </td>
+                <td>{{ reward.reward }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+
+        <h4>Recent Tasks Completed</h4>
+        <table class="table">
+            <tbody>
+            {% for ct in player.completedtask_set.all %}
+                <tr>
+                    <td>{{ ct.task.name }}</td>
+                    <td><span class="badge badge-pill badge-success">+ {{ ct.points_earned }} POINTS</span></td>
+                    <td>{{ ct.created_at }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+
+        <h4>Recent Rewards Redeemed</h4>
+        <table class="table">
+            <tbody>
+            {% for rr in player.redeemedreward_set.all %}
+                <tr>
+                    <td>{{ rr.reward.name }}</td>
+                    <td><span class="badge badge-pill badge-danger">- {{ rr.points_cost }} POINTS</span></td>
+                    <td>{{ rr.created_at }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+
+
+
+
+    <p>last updated: {{ player.updated_at }}</p>
+{% endblock content %}
