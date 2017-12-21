@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
     'tasksandrewards.apps.TasksandrewardsConfig',
+    'debug_toolbar',
     'rest_framework',
     'corsheaders',
 ]
@@ -64,6 +65,7 @@ JWT_AUTH = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -146,3 +148,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+INTERNAL_IPS = '127.0.0.1'
