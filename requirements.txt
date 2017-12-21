@@ -1,0 +1,7 @@
+Django==2.0
+pytz==2017.3
+djangorestframework
+markdown
+django-filter
+djangorestframework-jwt
+django-cors-headers
