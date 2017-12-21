@@ -19,12 +19,12 @@ class RewardAdmin(admin.ModelAdmin):
 
 class RedeemedRewardAdmin(admin.ModelAdmin):
     queryset = RedeemedReward.objects.all()
-    list_display = ('reward', 'player', 'created_at', 'id',)
+    list_display = ('reward', 'points_cost', 'player', 'created_at', 'id',)
 
 
 class CompletedTaskAdmin(admin.ModelAdmin):
     queryset = CompletedTask.objects.all()
-    list_display = ('task', 'player', 'created_at', 'id',)
+    list_display = ('task', 'points_earned', 'player', 'created_at', 'id',)
 
 
 admin.site.register(Player, PlayerAdmin)
