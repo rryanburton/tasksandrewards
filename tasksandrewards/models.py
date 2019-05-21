@@ -4,18 +4,48 @@ from django.db.models.signals import post_save
 from django.urls import reverse
 
 
+class Household(models.Model):
+    name = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('household-detail', kwargs={'pk': self.pk})
+
+
 class Player(models.Model):
     name = models.CharField(max_length=50)
     score = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=None)
+    household = models.ForeignKey(Household, related_name='players' ,on_delete=None, blank=True, null=True)
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
         return reverse('player-detail', kwargs={'pk': self.pk})
+
+
+class Coach(models.Model):
+    name = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=None)
+    household = models.ForeignKey(Household, related_name='coaches', on_delete=None)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Coaches"
+
+    # def get_absolute_url(self):
+    #     return reverse('coach-detail', kwargs={'pk': self.pk})
 
 
 class Task(models.Model):
@@ -27,6 +57,8 @@ class Task(models.Model):
 
     def __str__(self):
         return "{} - {}".format(self.name , self.points)
+
+
 
 
 class Reward(models.Model):
