@@ -1,23 +1,33 @@
 from django.contrib import admin
-from .models import Player, Coach, Household, Task, Reward, RedeemedReward, CompletedTask
+from django.contrib.auth.admin import UserAdmin
+from .models import User, Player, Coach, Team, Task, Reward, RedeemedReward, CompletedTask
 
 
 class PlayerAdmin(admin.ModelAdmin):
     queryset = Player.objects.all()
-    list_display = ('name', 'household', 'score', 'created_at', 'updated_at', 'user', 'id',)
+    list_display = (
+        'name',
+        'team',
+        'score',
+        'created_at', 'updated_at', 'user', 'id',)
 
 
 class CoachAdmin(admin.ModelAdmin):
     queryset = Coach.objects.all()
-    list_display = ('name', 'household', 'created_at', 'updated_at', 'user', 'id',)
+    list_display = (
+        'name',
+        'team',
+        'created_at', 'updated_at', 'user', 'id',)
 
-class PlayerInline(admin.TabularInline):
-    model = Player
-    fields = ('name',)
 
-class HouseholdAdmin(admin.ModelAdmin):
-    queryset = Household.objects.all()
-    inlines = [PlayerInline]
+# class PlayerInline(admin.TabularInline):
+#     model = Player
+#     fields = ('name',)
+
+
+class TeamAdmin(admin.ModelAdmin):
+    queryset = Team.objects.all()
+    # inlines = [PlayerInline]
 
     def players_display(self, obj):
         return ", ".join([
@@ -55,8 +65,9 @@ class CompletedTaskAdmin(admin.ModelAdmin):
     list_display = ('task', 'points_earned', 'player', 'created_at', 'id',)
 
 
+admin.site.register(User, UserAdmin)
 admin.site.register(Player, PlayerAdmin)
-admin.site.register(Household, HouseholdAdmin)
+admin.site.register(Team, TeamAdmin)
 admin.site.register(Coach, CoachAdmin)
 admin.site.register(Task, TaskAdmin)
 admin.site.register(Reward, RewardAdmin)

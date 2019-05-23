@@ -33,7 +33,6 @@ DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,11 +43,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
+    'django.contrib.sites',
     'tasksandrewards.apps.TasksandrewardsConfig',
     'debug_toolbar',
     'rest_framework',
     'corsheaders',
 ]
+AUTH_USER_MODEL = 'tasksandrewards.User'
+
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
@@ -161,6 +163,12 @@ STATIC_URL = '/static/'
 
 
 INTERNAL_IPS = '127.0.0.1'
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())

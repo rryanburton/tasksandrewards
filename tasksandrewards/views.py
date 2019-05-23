@@ -1,6 +1,7 @@
 from rest_framework import viewsets
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
 from django.views.generic import DetailView, ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from tasksandrewards.serializers import (
         UserSerializer,
@@ -11,7 +12,7 @@ from tasksandrewards.serializers import (
         RedeemedRewardSerializer,
         CompletedTaskSerializer
     )
-from tasksandrewards.models import Player, Task, Reward, RedeemedReward, CompletedTask
+from tasksandrewards.models import User, Player, Task, Reward, RedeemedReward, CompletedTask, Team
 
 
 # #######  API Views  #######################################
@@ -54,15 +55,16 @@ class CompletedTaskViewSet(viewsets.ModelViewSet):
 
 # #######  APP Views  #######################################
 
-class PlayerListView(ListView):
+class PlayerListView(LoginRequiredMixin ,ListView):
     model = Player
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # context['now'] = timezone.now()
         return context
 
-
+# @login_required
 class PlayerDetailView(DetailView):
     model = Player
 

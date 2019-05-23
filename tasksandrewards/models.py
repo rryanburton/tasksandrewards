@@ -1,10 +1,14 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.urls import reverse
 
 
-class Household(models.Model):
+class User(AbstractUser):
+    pass
+
+
+class Team(models.Model):
     name = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -12,17 +16,17 @@ class Household(models.Model):
     def __str__(self):
         return self.name
 
-    def get_absolute_url(self):
-        return reverse('household-detail', kwargs={'pk': self.pk})
+    # def get_absolute_url(self):
+    #     return reverse('team-detail', kwargs={'pk': self.pk})
 
 
 class Player(models.Model):
     name = models.CharField(max_length=50)
-    score = models.IntegerField()
+    score = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=None)
-    household = models.ForeignKey(Household, related_name='players' ,on_delete=None, blank=True, null=True)
+    team = models.ForeignKey(Team, related_name='players', on_delete=None, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -36,7 +40,7 @@ class Coach(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=None)
-    household = models.ForeignKey(Household, related_name='coaches', on_delete=None)
+    team = models.ForeignKey(Team, related_name='coaches', on_delete=None, blank=True, null=True)
 
     def __str__(self):
         return self.name

@@ -21,10 +21,12 @@ from django.urls import path
 from django.conf import settings
 
 from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token
+from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
     path('', include('tasksandrewards.app_urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
     url(r'api/', include('tasksandrewards.api_urls')),
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
