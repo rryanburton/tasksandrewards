@@ -172,3 +172,5 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
+SITE = 1
