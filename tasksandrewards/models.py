@@ -39,7 +39,7 @@ class Coach(models.Model):
     name = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(User, on_delete=None)
+    user = models.ForeignKey(User, on_delete=None, related_name='user')
     team = models.ForeignKey(Team, related_name='coaches', on_delete=None, blank=True, null=True)
 
     def __str__(self):

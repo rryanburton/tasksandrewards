@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from django.contrib.auth.models import Group
 from django.views.generic import DetailView, ListView
@@ -12,7 +13,7 @@ from tasksandrewards.serializers import (
         RedeemedRewardSerializer,
         CompletedTaskSerializer
     )
-from tasksandrewards.models import User, Player, Task, Reward, RedeemedReward, CompletedTask, Team
+from tasksandrewards.models import User, Coach, Player, Task, Reward, RedeemedReward, CompletedTask, Team
 
 
 # #######  API Views  #######################################
@@ -55,17 +56,26 @@ class CompletedTaskViewSet(viewsets.ModelViewSet):
 
 # #######  APP Views  #######################################
 
-class PlayerListView(LoginRequiredMixin ,ListView):
+class PlayerListView(LoginRequiredMixin, ListView):
     model = Player
 
+    def get_queryset(self):
+        coach = Coach.objects.get(user=self.request.user)
+        players = Player.objects.filter(team__coaches__name__exact=coach)
+        print("coach= {}, players= {}".format(coach, players))
+        return players
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        coach = Coach.objects.get(user=self.request.user)
+        context['coach'] = coach
+        team = coach.team
+        context['team'] = team
         # context['now'] = timezone.now()
         return context
 
-# @login_required
-class PlayerDetailView(DetailView):
+
+class PlayerDetailView(LoginRequiredMixin, DetailView):
     model = Player
 
     tasks = Task.objects.all()
