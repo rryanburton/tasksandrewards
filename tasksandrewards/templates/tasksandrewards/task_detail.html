@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{#{% block title %}Home{% endblock title %}#}
+{#{% block nav-style %}mkt-nav{% endblock nav-style %}#}
+
+{% block content %}
+    <div class="container">
+<h1>Task Details</h1>
+<h2>Name: {{object.name}}</h2>
+        <h3>Task: {{ object.task }}</h3>
+        <h3>Points: {{ object.points }}</h3>
+    </div>
+{% endblock content %}

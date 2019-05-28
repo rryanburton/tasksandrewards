@@ -1,7 +1,9 @@
 from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
 from rest_framework import viewsets
 from django.contrib.auth.models import Group
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, TemplateView, CreateView, UpdateView, \
+    DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from tasksandrewards.serializers import (
@@ -56,6 +58,10 @@ class CompletedTaskViewSet(viewsets.ModelViewSet):
 
 # #######  APP Views  #######################################
 
+class HomePageView(TemplateView):
+    template_name = 'tasksandrewards/home.html'
+
+
 class PlayerListView(LoginRequiredMixin, ListView):
     model = Player
 
@@ -85,10 +91,58 @@ class PlayerDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['tasks'] = self.tasks
         context['rewards'] = self.rewards
-
         # context['now'] = timezone.now()
         return context
 
+
+class TaskList(ListView):
+    model = Task
+
+
+class TaskDetail(DetailView):
+    model = Task
+
+
+class TaskCreate(CreateView):
+    model = Task
+    fields = ('name', 'task', 'points')
+    success_url = reverse_lazy('app:task-list')
+
+
+class TaskUpdate(UpdateView):
+    model = Task
+    fields = ('name', 'task', 'points')
+    success_url = reverse_lazy('app:task-list')
+
+
+class TaskDelete(DeleteView):
+    model = Task
+    success_url = reverse_lazy('app:task-list')
+
+
+class RewardList(ListView):
+    model = Reward
+
+
+class RewardDetail(DetailView):
+    model = Reward
+
+
+class RewardCreate(CreateView):
+    model = Reward
+    fields = ('name', 'reward', 'cost')
+    success_url = reverse_lazy('app:reward-list')
+
+
+class RewardUpdate(UpdateView):
+    model = Reward
+    fields = ('name', 'reward', 'cost')
+    success_url = reverse_lazy('app:reward-list')
+
+
+class RewardDelete(DeleteView):
+    model = Reward
+    success_url = reverse_lazy('app:reward-list')
 # @register.filter(name='subtract')
 # def subtract(value, arg):
 #     return value - arg

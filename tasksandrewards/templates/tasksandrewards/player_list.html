@@ -3,13 +3,16 @@
 {% block nav-style %}mkt-nav{% endblock nav-style %}
 
 {% block content %}
-    <h2>{{ coach }}</h2>
-    <h2> Your Team: {{ team }}</h2>
-<h2>Your Players:</h2>
-    <ul>
-    {% for object in object_list %}
-        <li><a href="{% url 'app:player-detail' pk=object.id %}"> {{ object.name }}</a> <span class="badge badge-pill badge-primary">{{ object.score }}</span>  updated:{{ object.updated_at }}</li>
-    {% endfor %}
-    </ul>
-
+    <div class="container">
+{#        <h2>{{ coach }}</h2>#}
+        <h2> Your Team: {{ team }}</h2>
+        <h2>Your Players:</h2>
+        <ul>
+            {% for object in object_list %}
+                <li><a href="{% url 'app:player-detail' pk=object.id %}"> {{ object.name }}</a>
+                    <span class="badge badge-pill badge-primary">{{ object.score }}</span>
+                    updated:{{ object.updated_at }}</li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock content %}

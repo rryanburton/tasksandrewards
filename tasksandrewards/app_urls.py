@@ -15,11 +15,40 @@ Including another URLconf
 """
 from django.urls import path
 
-from .views import PlayerDetailView, PlayerListView
+from .views import (
+    PlayerDetailView,
+    PlayerListView,
+    HomePageView,
+    TaskList,
+    TaskCreate,
+    TaskUpdate,
+    TaskDelete,
+    TaskDetail,
+    RewardList,
+    RewardDetail,
+    RewardCreate,
+    RewardUpdate,
+    RewardDelete,
+)
+
+
 app_name = 'app'
 
 urlpatterns = [
-    path('', PlayerListView.as_view()),
-    path('players/<int:pk>/', PlayerDetailView.as_view(), name='player-detail'),
+
+    path('', HomePageView.as_view(), name='home'),
+    path('players/', PlayerListView.as_view(), name='player-list'),
+    path('players/<int:pk>', PlayerDetailView.as_view(), name='player-detail'),
+    path('tasks/', TaskList.as_view(), name='task-list'),
+    path('tasks/view/<int:pk>', TaskDetail.as_view(), name='task-detail'),
+    path('tasks/new', TaskCreate.as_view(), name='task-create'),
+    path('tasks/edit/<int:pk>', TaskUpdate.as_view(), name='task-edit'),
+    path('tasks/delete/<int:pk>', TaskDelete.as_view(), name='task-delete'),
+    path('rewards/', RewardList.as_view(), name='reward-list'),
+    path('rewards/view/<int:pk>', RewardDetail.as_view(), name='reward-detail'),
+    path('rewards/new', RewardCreate.as_view(), name='reward-create'),
+    path('rewards/edit/<int:pk>', RewardUpdate.as_view(), name='reward-edit'),
+    path('rewards/delete/<int:pk>', RewardDelete.as_view(), name='reward-delete'),
+
 
 ]

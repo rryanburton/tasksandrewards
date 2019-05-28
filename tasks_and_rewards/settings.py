@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'rest_framework',
     'corsheaders',
+    'crispy_forms',
 ]
 AUTH_USER_MODEL = 'tasksandrewards.User'
 
@@ -174,3 +175,5 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 django_heroku.settings(locals())
 
 SITE_ID = 1
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

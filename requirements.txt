@@ -12,3 +12,4 @@ sqlparse==0.2.4
 gunicorn
 django-heroku
 python-dotenv
+django-crispy-forms
