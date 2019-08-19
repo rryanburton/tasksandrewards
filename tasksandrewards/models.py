@@ -34,6 +34,13 @@ class Player(models.Model):
     def get_absolute_url(self):
         return reverse('player-detail', kwargs={'pk': self.pk})
 
+    @property
+    def sorted_completedtask_set(self):
+        return self.completedtask_set.order_by('-created_at')
+
+    @property
+    def sorted_redeemedreward_set(self):
+        return self.redeemedreward_set.order_by('-created_at')
 
 class Coach(models.Model):
     name = models.CharField(max_length=50)
@@ -94,8 +101,9 @@ class RedeemedReward(models.Model):
             return self.player.save(update_fields=['score'])
         else:
             print(
-                "not enough points to redeem. You need {} points, but you only have {} points".format(self.points_cost,
-                                                                                                      current_score))
+                "not enough points to redeem. You need {} points, but you only have {} points".format(
+                    self.points_cost,
+                    current_score))
 
 
 class CompletedTask(models.Model):
@@ -104,7 +112,7 @@ class CompletedTask(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.task.__str__()
+        return str(self.created_at) + " " + str(self.task.__str__())
 
     def points_earned(self):
         return self.task.points
@@ -114,12 +122,12 @@ class CompletedTask(models.Model):
         current_score = self.player.score
         adjusted_score = self.task.points + current_score
         self.player.score = adjusted_score
-        # print(" task changing player score")
+        # print(" task changing {} score".format(self.player))
         return self.player.save(update_fields=['score'])
 
 
 def model_created_or_updated(sender, **kwargs):
-    # print("kwargs: {}".format(kwargs))
+    print("kwargs: {}".format(kwargs))
     the_instance = kwargs['instance']
     sender.change_player_score(the_instance)
 

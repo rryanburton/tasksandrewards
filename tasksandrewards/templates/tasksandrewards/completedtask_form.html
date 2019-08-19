@@ -1,0 +1,18 @@
+{#{% extends 'base.html' %}#}
+{#{% load crispy_forms_tags %}#}
+{% block content %}
+    <form action="{% url 'app:completedtask-template' %}" method="post">
+    {% csrf_token %}
+
+                <select name="player" required="" id="id_player" hidden>
+                    <option value="{{ player.id }}">{{ player.name }}</option>
+                </select>
+
+
+                <select name="task" required="" id="id_task" hidden>
+                    <option value="{{ task.id }}">{{ task }}</option>
+                </select>
+
+    <button type="submit" class="btn btn-success">Mark Task Completed</button>
+  </form>
+{% endblock %}

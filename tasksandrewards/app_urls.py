@@ -29,6 +29,10 @@ from .views import (
     RewardCreate,
     RewardUpdate,
     RewardDelete,
+    CompletedTaskCreate,
+    # CompletedTaskinTemplate,
+    CompleteTaskInTemplate,
+    RedeemRewardInTemplate
 )
 
 
@@ -49,6 +53,11 @@ urlpatterns = [
     path('rewards/new', RewardCreate.as_view(), name='reward-create'),
     path('rewards/edit/<int:pk>', RewardUpdate.as_view(), name='reward-edit'),
     path('rewards/delete/<int:pk>', RewardDelete.as_view(), name='reward-delete'),
-
+    # path('completedtask/new', CompletedTaskCreate.as_view(), name='completedtask-create'),
+    # path('completedtask/<int:task>/<int:player>', CompletedTaskinTemplate, name='completedtask-template'),
+    path('completedtask/template/<task.id>/<player.id>', CompleteTaskInTemplate.as_view(),
+         name='completedtask-template'),
+    path('redeemedreward/template/<reward.id>/<player.id>', RedeemRewardInTemplate.as_view(),
+         name='redeemreward-template'),
 
 ]

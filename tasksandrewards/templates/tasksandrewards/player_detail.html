@@ -1,6 +1,6 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 {% load tasksandrewards_extras %}
-{% block title %}Home{% endblock title %}
+{% block title %}{{ player.name }} - {{ player.team }}{% endblock title %}
 {% block nav-style %}mkt-nav{% endblock nav-style %}
 
 {% block content %}
@@ -16,6 +16,10 @@
                     <td>{{ task.name }}</td>
                     <td><span class="badge badge-pill badge-primary">EARN: {{ task.points }} POINTS</span></td>
                     <td>{{ task.task }}</td>
+                <td>
+                   {% include "tasksandrewards/completedtask_form.html" %}
+{#                    <a href="{% url 'app:completedtask-template' task.id player.id %}">mark this completed</a>#}
+                </td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -30,7 +34,7 @@
                 {% if reward.cost > player.score %}
                     <td style="text-decoration: line-through;">
 
-                            {{ reward.name }}
+                        {{ reward.name }}
                     </td>
                 {% else %}
                     <td>{{ reward.name }}</td>
@@ -45,6 +49,9 @@
                     {% endif %}
                 </td>
                 <td>{{ reward.reward }}</td>
+            <td>
+                {% include "tasksandrewards/redeemedreward_form.html" %}
+            </td>
             </tr>
         {% endfor %}
         </tbody>
@@ -57,7 +64,7 @@
         <h4>Recent Tasks Completed</h4>
         <table class="table">
             <tbody>
-            {% for ct in player.completedtask_set.all %}
+            {% for ct in player.sorted_completedtask_set.all %}
                 <tr>
                     <td>{{ ct.task.name }}</td>
                     <td><span class="badge badge-pill badge-success">+ {{ ct.points_earned }} POINTS</span></td>
@@ -72,7 +79,7 @@
         <h4>Recent Rewards Redeemed</h4>
         <table class="table">
             <tbody>
-            {% for rr in player.redeemedreward_set.all %}
+            {% for rr in player.sorted_redeemedreward_set.all %}
                 <tr>
                     <td>{{ rr.reward.name }}</td>
                     <td><span class="badge badge-pill badge-danger">- {{ rr.points_cost }} POINTS</span></td>
@@ -82,10 +89,6 @@
             </tbody>
         </table>
 
+{#    <p>last updated: {{ player.updated_at }}</p>#}
 
-
-
-
-
-    <p>last updated: {{ player.updated_at }}</p>
 {% endblock content %}

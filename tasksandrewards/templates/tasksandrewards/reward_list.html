@@ -1,12 +1,14 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 {#{% block title %}Home{% endblock title %}#}
 {#{% block nav-style %}mkt-nav{% endblock nav-style %}#}
-
+{% block title %}
+   {{ block.super }} Rewards
+{% endblock %}
 {% block content %}
     <div class="container">
-<h2>Tasks:</h2>
+<h2>Rewards:</h2>
     {% if object_list %}
-        <table border="1">
+        <table class="table" border="1">
         <thead>
         <tr>
             <th>Name</th>

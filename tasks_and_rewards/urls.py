@@ -22,9 +22,15 @@ from django.conf import settings
 
 from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token
 from django.contrib.auth import views as auth_views
+from rest_framework.schemas import get_schema_view
 
+from rest_framework_swagger.renderers import SwaggerUIRenderer, OpenAPIRenderer
+
+schema_view = get_schema_view(title='TasksRewards API',
+                              renderer_classes=[OpenAPIRenderer, SwaggerUIRenderer])
 
 urlpatterns = [
+    url(r'swagger/', schema_view, name="docs"),
     path('', include('tasksandrewards.app_urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     url(r'api/', include('tasksandrewards.api_urls')),
@@ -33,6 +39,7 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api-token-auth/', obtain_jwt_token),
     url(r'^api-token-verify/', verify_jwt_token),
+
 ]
 
 

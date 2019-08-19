@@ -1,0 +1,18 @@
+{#{% extends 'base.html' %}#}
+{#{% load crispy_forms_tags %}#}
+{% block content %}
+    <form action="{% url 'app:redeemreward-template' %}" method="post">
+    {% csrf_token %}
+
+                <select name="player" required="" id="id_player" hidden>
+                    <option value="{{ player.id }}">{{ player.name }}</option>
+                </select>
+
+
+                <select name="reward" required="" id="id_reward" hidden>
+                    <option value="{{ reward.id }}">{{ reward }}</option>
+                </select>
+
+    <button type="submit" class="btn btn-success">Redeem Reward</button>
+  </form>
+{% endblock %}

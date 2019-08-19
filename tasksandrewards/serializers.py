@@ -1,6 +1,6 @@
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import  Group
 from rest_framework import serializers
-from tasksandrewards.models import Player, Task, Reward, RedeemedReward, CompletedTask
+from tasksandrewards.models import Coach, User, Player, Task, Reward, RedeemedReward, CompletedTask
 
 
 class GroupSerializer(serializers.ModelSerializer):

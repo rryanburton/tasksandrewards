@@ -1,5 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 {#{% block title %}Home{% endblock title %}#}
+{% block title %}
+   {{ block.super }} Team
+{% endblock %}
 {% block nav-style %}mkt-nav{% endblock nav-style %}
 
 {% block content %}
@@ -11,7 +14,8 @@
             {% for object in object_list %}
                 <li><a href="{% url 'app:player-detail' pk=object.id %}"> {{ object.name }}</a>
                     <span class="badge badge-pill badge-primary">{{ object.score }}</span>
-                    updated:{{ object.updated_at }}</li>
+{#                    updated:{{ object.updated_at }}#}
+                </li>
             {% endfor %}
         </ul>
     </div>
